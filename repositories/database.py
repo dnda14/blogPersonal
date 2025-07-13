@@ -1,21 +1,47 @@
 import sqlite3
+from contextlib import contextmanager
 
 
-class Conexion:
-    def __init__(self):
-        self.conn = sqlite3.connect("database.db")
-        self.cur = self.conn.cursor()
 
+class Database:
+    def __init__(self,db_name="database.db"):
+        self.db_name = db_name
+        self._initialize_db()
 
-    def get_db():
-        conn = sqlite3.conect("database.db")
-        return conn
+    @contextmanager
+    def get_db(self):
+        """Gestión segura de conexiones usando context manager"""
+        conn = sqlite3.connect(self.db_name)
+        conn.row_factory = sqlite3.Row
+        try:
+            yield conn.cursor()
+        finally:
+            conn.close()
+            
+    def _initialize_db(self):
+        """Inicializa la base de datos si no existe"""
+        with self.get_db() as cursor:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS articulos (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    titulo TEXT NOT NULL,
+                    contenido TEXT NOT NULL
+                )
+            """)
+            cursor.commit()
+            
+            
+    def get_articulo_by_id(self, id):
+        with self.get_db() as cursor:
+            cursor.execute(f"SELECT * FROM articulos WHERE id = {id}")
+            return cursor.fetchone()
+        
 
-    def get_articulo_id(self, id):
-        return self.cur.execute(f"SELECT * FROM articulos WHERE id = {id}").fetchone()
+    def add_articulo(self, articulo_data: dict):
+        with self.get_db() as cursor:
+            cursor.execute(f"INSERT INTO articulos (titulo, contenido) VALUES ('{articulo_data['titulo']}', '{articulo_data['contenido']}')")
+            cursor.commit()
 
-    def add_articulo(self, articulo_data):
-        self.cur.execute(f"INSERT INTO articulos (titulo, contenido) VALUES ('{articulo_data['titulo']}', '{articulo_data['contenido']}')")
 
 
 
