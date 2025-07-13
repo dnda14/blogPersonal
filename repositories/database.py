@@ -14,38 +14,41 @@ class Database:
         conn = sqlite3.connect(self.db_name)
         conn.row_factory = sqlite3.Row
         try:
-            yield conn.cursor()
+            yield conn
         finally:
             conn.close()
             
     def _initialize_db(self):
         """Inicializa la base de datos si no existe"""
-        with self.get_db() as cursor:
-            cursor.execute("""
+        with self.get_db() as conn:
+            
+            conn.cursor().execute("""
                 CREATE TABLE IF NOT EXISTS articulos (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     titulo TEXT NOT NULL,
                     contenido TEXT NOT NULL
                 )
             """)
-            cursor.commit()
+            conn.commit()
     
     def get_all_articulos(self):    
-        with self.get_db() as cursor:
+        with self.get_db() as conn:
+            cursor  = conn.cursor()
             cursor.execute("SELECT * FROM articulos")
             return cursor.fetchall()
         
             
     def get_articulo_by_id(self, id):
-        with self.get_db() as cursor:
+        with self.get_db() as conn:
+            cursor = conn.cursor()
             cursor.execute("SELECT * FROM articulos WHERE id = ?",(id,))
             return cursor.fetchone()
         
 
     def add_articulo(self, articulo_data: dict):
-        with self.get_db() as cursor:
-            cursor.execute(f"INSERT INTO articulos (titulo, contenido) VALUES ('{articulo_data['titulo']}', '{articulo_data['contenido']}')")
-            cursor.commit()
+        with self.get_db() as conn:
+            conn.cursor().execute(f"INSERT INTO articulos (titulo, contenido) VALUES ('{articulo_data['titulo']}', '{articulo_data['contenido']}')")
+            conn.commit()
 
 
 

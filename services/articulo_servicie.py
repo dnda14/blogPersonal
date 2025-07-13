@@ -1,4 +1,4 @@
-from ..repositories import database
+from repositories import database
 
 db = database.Database()
 
