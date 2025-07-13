@@ -13,4 +13,5 @@ def get_articulos_from_db(int: id):
 
 def get_all_articulos_from_db():
     datos = db.get_all_articulos()
-    return datos
+    datos2 = [dict(dato) for dato in datos]
+    return datos2

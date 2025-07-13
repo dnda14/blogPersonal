@@ -1,7 +1,10 @@
 
 from pydantic import BaseModel
+from typing import Optional
+
 class Articulo(BaseModel):
-    titulo : int
+    id: Optional[int] = None
+    titulo : str
     contenido : str
     
     
