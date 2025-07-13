@@ -29,11 +29,16 @@ class Database:
                 )
             """)
             cursor.commit()
-            
+    
+    def get_all_articulos(self):    
+        with self.get_db() as cursor:
+            cursor.execute("SELECT * FROM articulos")
+            return cursor.fetchall()
+        
             
     def get_articulo_by_id(self, id):
         with self.get_db() as cursor:
-            cursor.execute(f"SELECT * FROM articulos WHERE id = {id}")
+            cursor.execute("SELECT * FROM articulos WHERE id = ?",(id,))
             return cursor.fetchone()
         
 
