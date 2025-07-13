@@ -7,9 +7,10 @@ def add_articulo_to_db(articulo_data: dict):
     db.add_articulo(articulo_data)
    
 
-def get_articulos_from_db(int: id):
+def get_articulos_from_db(id: int):
     datos = db.get_articulo_by_id(id)
-    return datos
+    datos2 = dict(datos)
+    return datos2
 
 def get_all_articulos_from_db():
     datos = db.get_all_articulos()
