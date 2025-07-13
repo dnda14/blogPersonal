@@ -1,9 +1,0 @@
-{
-    "workbench.colorCustomizations": {
-        "terminal.background": "#131212",
-        "terminal.foreground": "#1eee39",
-        "toolbar.hoverBackground": "#c8f309e6",
-        "tab.activeBackground": "#565d57",
-        "editor.selectionBackground": "#a6690d"
-    }
-}
