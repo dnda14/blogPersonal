@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 from repositories.database import Database
-from routers import endpoint
+from controllers import endpoint
 from datetime import datetime
-
-
-
 
 
 app = FastAPI()
