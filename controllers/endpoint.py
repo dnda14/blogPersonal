@@ -7,7 +7,8 @@ from models.articulo import Articulo, ResponseArticulo, RequestArticulo, Articul
 from services.articulo_service import (
     get_articulos_from_db, 
     get_all_articulos_from_db, 
-    add_articulo_to_db
+    add_articulo_to_db,
+    update_articulo_in_db
 )
 
 
@@ -48,4 +49,4 @@ async def update_articulo(
         )
     articulo.titulo = datos.titulo if datos.titulo is not None else articulo.titulo
     articulo.contenido = datos.contenido if datos.contenido is not None else articulo.contenido
-    
+    return update_articulo_in_db(id, articulo)

@@ -50,6 +50,13 @@ class Database:
             conn.cursor().execute(f"INSERT INTO articulos (titulo, contenido) VALUES ('{articulo_data['titulo']}', '{articulo_data['contenido']}')")
             conn.commit()
 
-
+    def update_articulo(self, id: int, articulo_data: dict):
+        with self.get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE articulos SET titulo = ?, contenido = ? WHERE id = ?",
+                (articulo_data['titulo'], articulo_data['contenido'], id)
+            )
+            conn.commit()
 
 

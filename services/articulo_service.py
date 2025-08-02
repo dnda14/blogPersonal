@@ -15,3 +15,6 @@ def get_all_articulos_from_db():
     datos = db.get_all_articulos()
     datos2 = [dict(dato) for dato in datos]
     return datos2
+
+def update_articulo_in_db(id: int, articulo_data: dict):
+    db.update_articulo(id, articulo_data)
