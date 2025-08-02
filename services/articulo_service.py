@@ -6,7 +6,6 @@ db = database.Database()
 def add_articulo_to_db(articulo_data: dict):
     db.add_articulo(articulo_data)
    
-
 def get_articulos_from_db(id: int):
     datos = db.get_articulo_by_id(id)
     datos2 = dict(datos)

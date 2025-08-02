@@ -7,4 +7,14 @@ class Articulo(BaseModel):
     titulo : str
     contenido : str
     
+class ResponseArticulo(BaseModel):
+    message: str
+    articulo: Articulo
     
+class RequestArticulo(BaseModel):
+    titulo: str
+    contenido: str
+
+class ArticuloUpdate(BaseModel):
+    titulo: Optional[str] = None
+    contenido: Optional[str] = None
