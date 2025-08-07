@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "title": "My First Python Project",
+        "date": "2025-08-07",
+        "content": "I built a CLI calculator in Python. It was simple but fun!"
+    },
+    {
+        "id": 2,
+        "title": "Building a Game with SFML",
+        "date": "2025-08-06",
+        "content": "Explored 2D graphics with SFML and C++. A great intro to game development!"
+    }
+]
