@@ -1,8 +1,12 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+import markdown
 from typing import List
 
 from models.articulo import Articulo, ResponseArticulo, RequestArticulo, ArticuloUpdate
 
+from main import app, posts
 
 from services.articulo_service import (
     get_articulos_from_db, 
@@ -13,6 +17,22 @@ from services.articulo_service import (
 
 
 router = APIRouter(prefix="/api/v1", tags=["articulos"])
+
+templates = Jinja2Templates(directory="views")
+
+
+@app.get("/",response_class=HTMLResponse)
+async def root(request: Request):
+    #return {"status": "OK", "message": "API funcionando"}
+    return templates.TemplateResponse("index.html", {"request":request, "posts":posts})
+
+@app.get("/post/{slug}")
+def show_post(request: Request, slug: str):
+    path = f"posts/{slug}.md"
+    with open(path, "r", encoding="utf-8") as f:
+        content = markdown.markdown(f.read(), extensions=["fenced_code", "codehilite"])
+    return templates.TemplateResponse("post.html", {"request": request, "content": content})
+
 
 @router.get("/articulos",response_model=List[Articulo])
 async def get_articulos():
